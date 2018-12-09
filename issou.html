@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Démo minimal ar</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no,user-scalable=no,maximum-scale=1">	
+	<script src="js/aframe-0.8.min.js"></script>
+	<script src="js/aframe-ar.min.js"></script>
+
+<script> AFRAME.registerComponent('vidhandler', {
+  init: function () {
+    this.toggle = false;
+    this.vid = document.querySelector("#vid")
+    this.vid.pause()
+},
+tick:function(){
+   if(this.el.object3D.visible == true){
+     if(!this.toggle){
+       this.toggle = true;
+       this.vid.play();
+    }
+  }else{
+    this.toggle = false;
+    this.vid.pause();
+  }
+ }
+});
+</script>
+</head>
+<body style="margin:0;overflow:hidden;">
+
+	<a-scene embedded arjs="sourceType:webcam;detectionMode:mono;">
+
+  <a-assets timeout="10000">
+  <video id="vid" src="issou_comp.mp4" loop="true" crossorigin>
+  </a-assets>
+  	  				<a-marker type="pattern" url="marker-issou.patt" vidhandler>
+
+				<a-plane lenght="1" width="1" rotation="-90 0 0" 
+				material='transparent:true; opacity: 1; src:#vid'></a-plane>
+
+			<!-- l'objet est centré sur le marker 
+				et fait par défaut la taille du marker une unité = taille du marker-->
+		</a-marker>
+		
+		<a-entity camera></a-entity>
+	</a-scene>
+</body>
+</html>
